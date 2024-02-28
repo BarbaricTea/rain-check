@@ -1,23 +1,40 @@
-import { forecastType } from '../types'
+import { forecastType } from "../types";
 
 type Props = {
-    data: forecastType
-  }
+  data: forecastType;
+};
+
+import {
+  getWeekForcast,
+  getWeekDay,
+  getDailyMaxTemp,
+  getDailyMinTemp,
+} from './../helpers'
+
 
 function Week({ data }: Props) {
+  const today = data.list[0];
+  const week = getWeekForcast(data);
   return (
-    <></>
-    // <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-8 w-full">
-    //     {data.list.map((day, index) => (
-    //         <div key={index} className="bg-white/40 p-2 text-center rounded-lg flex flex-col items-center">
-    //             <p>{new Date(day.date).toLocaleString("en-US", {weekday: "short"})}</p>
-    //             <img src={day.day.condition.icon} alt={day.day.condition.text}/>
-    //             <div>H: {day.day.maxtemp_c.toFixed()}°C</div>
-    //             <div>L: {day.day.mintemp_c.toFixed()}°C</div>
-    //         </div>
-    //     ))}
-    // </div>
-  )
+    <section className="text-gray-800 w-full">
+    <h1 className="mb-4 text-3xl text-white font-medium">Week</h1>
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-5 w-full">
+      {Object.entries(week).slice(1, 7).map(([key, time], index) => (
+        <div
+          key={index}
+          className="bg-white/60 p-3 text-center rounded-lg flex flex-col items-center"
+        >
+          <p className="text-xl">{getWeekDay(key)}</p>
+          <img
+            alt={`weather-icon-${time[0].weather[0].description}`}
+            src={`http://openweathermap.org/img/wn/${time[0].weather[0].icon}@2x.png`}
+          />
+          <div>{getDailyMaxTemp(time)}° <span className="opacity-50 ml-1">{getDailyMinTemp(time)}°</span></div>
+        </div>
+      ))}
+    </div>
+    </section>
+  );
 }
 
-export default Week
+export default Week;

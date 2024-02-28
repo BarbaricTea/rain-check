@@ -32,10 +32,9 @@ const useForecast = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         const forecastData = {
           ...data.city,
-          list: data.list.slice(0, 16),
+          list: data.list,
         }
         console.log(forecastData);
         setForecast(forecastData)
@@ -45,6 +44,7 @@ const useForecast = () => {
 
   const onOptionSelect = (option: optionType) => {
     setCity(option)
+    onSubmit();
   }
 
   const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -69,8 +69,8 @@ const useForecast = () => {
     options,
     term,
     onOptionSelect,
-    onSubmit,
     onInputChange,
+    onSubmit,
   }
 }
 
