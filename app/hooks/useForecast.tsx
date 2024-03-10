@@ -4,9 +4,9 @@ import { optionType, forecastType } from './../types/index'
 const BASE_URL = 'http://api.openweathermap.org'
 
 const useForecast = () => {
-  const [city, setCity] = useState<optionType | null>(null)
   const [term, setTerm] = useState<string>('')
   const [options, setOptions] = useState<[]>([])
+  const [city, setCity] = useState<optionType | null>(null)
   const [forecast, setForecast] = useState<forecastType | null>(null)
 
   const getSearchOptions = async (term: string) => {
@@ -55,7 +55,6 @@ const useForecast = () => {
       getSearchOptions(value)
     }
   }
-
 
   useEffect(() => {
     if (city) {

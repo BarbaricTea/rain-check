@@ -1,6 +1,7 @@
 import { forecastList, forecastType } from "../types";
 import moment from "moment";
 import _ from "lodash";
+import { forecastColors, forecastColor } from "../types";
 
 export const getCurrentDate = () => {
   const currentDate = Intl.DateTimeFormat("en-US", {
@@ -71,4 +72,17 @@ export const getDailyMinTemp = (data: forecastList[]) => {
     return values.main.temp;
   })
   return Math.min(...temps).toFixed();
+}
+
+export const getWeatherColor = (weather: string) => {
+  console.log(weather);
+  let time = weather.slice(-1) as "n" | "d";
+  let icon = weather.slice(0, 2);
+  console.log(time, icon);
+
+  const forecast = forecastColors.find((color) => color.id === icon);
+
+  if(forecast){
+    return time === "d" ? forecast.d : forecast.n
+  }
 }

@@ -1,7 +1,9 @@
 import { getCurrentDate } from "../helpers";
-import { IoLocationSharp } from "react-icons/io5";
+import { IoLocationOutline } from "react-icons/io5";
 
 import { forecastType } from "../types";
+import Image from "next/image";
+import { FiCloud, FiCloudRain } from "react-icons/fi";
 
 type Props = {
   data: forecastType;
@@ -10,27 +12,39 @@ type Props = {
 const Current = ({ data }: Props) => {
   const today = data.list[0];
   return (
-    <section className="flex flex-col mb-8 md:mb-0 items-start gap-2 text-white w-full">
-      <div className="flex items-center">
-        <h1 className="text-4xl">Today</h1>
-        {today.weather[0].icon && (
-          <img
-            className="w-[100px] object-cover"
-            alt={`weather-icon-${today.weather[0].description}`}
-            src={`http://openweathermap.org/img/wn/${today.weather[0].icon}@2x.png`}
-          />
-        )}
-      </div>
-      <p className="mt-[-20px]">{getCurrentDate()}</p>
-      <p className="text-7xl my-3">
-        {today.main.temp.toFixed()}
-        <span>°</span>
-      </p>
-      <span className="capitalize">{today.weather[0].description}</span>
+    <section className="flex flex-col justify-between h-full w-full mb-8 md:mb-0 gap-5 text-gray-700">
+      {today.weather[0].icon && (
+        <Image
+          className="mx-4"
+          width={150}
+          height={150}
+          alt={`weather-icon-${today.weather[0].description}`}
+          src={require("/public/assets/weather/" + `${today.weather[0].icon}` + ".png")}
+        />
+      )}
       <div>
-        <div className="flex items-center text-black bg-white/90 px-2 py-2 rounded-xl mt-1">
-          <IoLocationSharp />
-          <span className="m-1">
+        <p className="text-8xl my-5">
+          {today.main.temp.toFixed()}
+          <span>°</span>
+        </p>
+        <h1 className="text-3xl">Today</h1>
+        <p>{getCurrentDate()}</p>
+        <div className="w-full h-0.5 bg-gray-200 my-5 md:my-12"></div>
+        <span className="capitalize flex items-center gap-3 mb-3">
+          {" "}
+          <FiCloud fontSize={20}/>
+          {" "}
+          {today.weather[0].description}
+        </span>
+        <span className="flex items-center gap-3">
+        <FiCloudRain  fontSize={20}/>
+        Rain - {Math.round(today.pop * 100)}%
+        </span>
+      </div>
+      <div>
+        <div className="flex items-center text-gray-800 gap-2">
+          <IoLocationOutline fontSize={25}/>
+          <span className="text-xl">
             {data.name}, {data.country}
           </span>
         </div>
